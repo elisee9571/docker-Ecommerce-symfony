@@ -8,22 +8,37 @@
 		<section class="py-5">
 			<div class="container px-4 px-lg-5 my-5">
 				<div class="row gx-4 gx-lg-5 align-items-center">
-					<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
+					<div class="col-md-6">
+						<img class="card-img-top mb-5 mb-md-0" src="{{ product.images[0].name }}" alt="..."/>
+					</div>
+
 					<div class="col-md-6">
 						<div class="small mb-1">{{product.slug}}</div>
 						<h1 class="display-5 fw-bolder">{{product.name}}</h1>
-						<div class="fs-5 mb-5">
-							{{product.price}}€
+						<div class="fs-5 mb-3">
+							{% if product.priceSold %}
+								<span class="text-muted text-decoration-line-through">{{product.price}}€</span>
+								{{product.priceSold}}€
+								<p class="badge alert-danger">Sold</p>
+							{% else %}
+								{{product.price}}€
+							{% endif %}
 						</div>
 						<p class="lead">{{product.content}}</p>
-						{% if product.quantity != 0 %}
-							{% if product.quantity <= 10 %}
-								<p class="badge alert-danger">{{product.quantity}} products left in stock.</p>
-							{% endif %}
+						{% if product.quantity > 10 %}
+							<p class="badge alert-success">Available</p>
+						{% elseif product.quantity > 0 %}
+							<p class="badge alert-warning">Only
+								{{ product.quantity }}
+								left!</p>
+						{% else %}
+							<p class="badge bg-danger">Sold-out!</p>
+						{% endif %}
+
+						{% if product.quantity > 0 %}
 							<div class="d-flex">
-								<input class="form-control text-center me-3" id="inputQuantity" type="num" value="{{product.quantity}}" style="max-width: 3rem"/>
+								<input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem"/>
 								<button class="btn btn-outline-dark flex-shrink-0" type="button">
-									<i class="bi-cart-fill me-1"></i>
 									Add to cart
 								</button>
 							</div>
@@ -33,4 +48,5 @@
 			</div>
 		</section>
 	</div>
+	{% include "product/related.html.twig" %}
 {% endblock %}

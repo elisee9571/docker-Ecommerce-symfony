@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/', name: 'app_home_')]
+#[Route('/')]
 class HomeController extends AbstractController
 {
     public function __construct(ProductRepository $productRepository)
@@ -15,10 +15,10 @@ class HomeController extends AbstractController
         $this->productRepository = $productRepository;
     }
 
-    #[Route(name: 'index')]
+    #[Route(name: 'app_home')]
     public function index(): Response
     {
-        $products = $this->productRepository->findAll();
+        $products = $this->productRepository->findBy(array(), null, 8, null);
 
         return $this->render('home/index.html.twig', [
             "products" => $products,
