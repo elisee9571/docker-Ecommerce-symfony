@@ -1,0 +1,54 @@
+<style>
+	.dropstart .dropdown-toggle::before {
+		vertical-align: 0;
+		display: none;
+	}
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{ path('app_login') }}">Navbar</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home_index') }}">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_product_index') }}">Product</a>
+				</li>
+			</ul>
+
+			{% if not app.user %}
+				<div class="d-grid gap-2 d-md-block">
+					<a href="{{ path('app_login') }}" class="btn btn-primary">Log in</a>
+					<a href="{{ path('app_register') }}" class="btn btn-secondary">Sign up</a>
+				</div>
+			{% else %}
+				<div class="btn-group dropstart">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Profile
+					</button>
+					<ul class="dropdown-menu">
+						<li class="px-3">
+							<p>{{app.user.username}}</p>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_profile_index') }}">Profile</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_profile_orders') }}">Orders</a>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li>
+							<a href="{{ path('app_logout')}}" class="dropdown-item">logout</a>
+						</li>
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</nav>
