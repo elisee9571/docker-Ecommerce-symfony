@@ -3,13 +3,12 @@
 		<div
 			class="card h-100">
 			<!-- Product image-->
-			{% if product.quantity <= 0 %}
-				<div class="badge bg-danger position-absolute" style="top: 0.5rem; right: 0.5rem">Sold-out</div>
-			{% elseif product.priceSold %}
-				<div class="badge alert-danger position-absolute" style="top: 0.5rem; right: 0.5rem">Sold</div>
+			{% if product.priceSold %}
+				<div class="badge bg-dark position-absolute" style="top: 0.5rem; right: 0.5rem">Sold</div>
 			{% endif %}
 
-			<img class="card-img-top" src="{{ product.images[0].name }}" alt="..."/>
+			<img
+			class="card-img-top" src="{{ product.images[0].name }}" alt="..."/>
 
 			<!-- Product details-->
 			<div class="card-body p-4">
@@ -19,8 +18,8 @@
 					<h5 class="fw-bolder">{{product.name}}</h5>
 					<!-- Product price-->
 					{% if product.priceSold %}
-					<span class="text-muted text-decoration-line-through">{{product.price}}€</span>
-					{{product.priceSold}}€
+						<span class="text-muted text-decoration-line-through">{{product.price}}€</span>
+						{{product.priceSold}}€
 					{% else %}
 						{{product.price}}€
 					{% endif %}
@@ -29,11 +28,7 @@
 			<!-- Product actions-->
 			<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 				<div class="text-center">
-					{% if product.quantity > 0 %}
-						<a class="btn btn-outline-dark mt-auto" href="{{ path('app_product_details', {'slug': product.slug}) }}">Add to cart</a>
-					{% else %}
-						<a class="btn btn-dark mt-auto" href="{{ path('app_product_details', {'slug': product.slug}) }}">View options</a>
-					{% endif %}
+					<a class="btn btn-outline-dark mt-auto" href="{{ path('app_product_details', {'slug': product.slug}) }}">View product</a>
 				</div>
 			</div>
 		</div>
