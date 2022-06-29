@@ -4,7 +4,7 @@
 {% block h1 'Show Category' %}
 
 {% block body %}
-	<a href="{{ path('app_admincategory_index') }}">back to list</a>
+	<a href="{{ path('admin_category_index') }}">back to list</a>
 	<div class="container pb-5">
 		<div class="d-flex justify-content-end pb-3">
 			{{ include('admin/category/_delete_form.html.twig') }}
@@ -31,6 +31,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<a href="{{ path('app_admincategory_edit', {'id': category.id}) }}" class="btn btn-warning">Edit</a>
+		<a href="{{ path('admin_category_edit', {'id': category.id}) }}" class="btn btn-warning">Edit</a>
 	</div>
 {% endblock %}

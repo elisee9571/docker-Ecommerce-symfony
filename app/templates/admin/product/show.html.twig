@@ -4,7 +4,7 @@
 {% block h1 'Show Product' %}
 
 {% block body %}
-	<a href="{{ path('app_adminproduct_index') }}">back to list</a>
+	<a href="{{ path('admin_product_index') }}">back to list</a>
 	<div class="container pb-5">
 		<div class="d-flex justify-content-end pb-3">
 			{{ include('admin/product/_delete_form.html.twig') }}
@@ -59,6 +59,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<a href="{{ path('app_adminproduct_edit', {'id': product.id}) }}" class="btn btn-warning">Edit</a>
+		<a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="btn btn-warning">Edit</a>
 	</div>
 {% endblock %}

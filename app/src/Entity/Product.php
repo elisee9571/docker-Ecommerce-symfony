@@ -39,11 +39,11 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true)]
     private $images;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetail::class)]
-    private $orderDetails;
-
     #[ORM\Column(type: 'float', nullable: true)]
     private $priceSold;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetails::class)]
+    private $orderDetails;
 
     public function __construct()
     {
@@ -155,7 +155,19 @@ class Product
         return $this->orderDetails;
     }
 
-    public function addOrderDetail(OrderDetail $orderDetail): self
+    public function getPriceSold(): ?float
+    {
+        return $this->priceSold;
+    }
+
+    public function setPriceSold(?float $priceSold): self
+    {
+        $this->priceSold = $priceSold;
+
+        return $this;
+    }
+
+    public function addOrderDetail(OrderDetails $orderDetail): self
     {
         if (!$this->orderDetails->contains($orderDetail)) {
             $this->orderDetails[] = $orderDetail;
@@ -165,7 +177,7 @@ class Product
         return $this;
     }
 
-    public function removeOrderDetail(OrderDetail $orderDetail): self
+    public function removeOrderDetail(OrderDetails $orderDetail): self
     {
         if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
@@ -173,18 +185,6 @@ class Product
                 $orderDetail->setProduct(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getPriceSold(): ?float
-    {
-        return $this->priceSold;
-    }
-
-    public function setPriceSold(?float $priceSold): self
-    {
-        $this->priceSold = $priceSold;
 
         return $this;
     }

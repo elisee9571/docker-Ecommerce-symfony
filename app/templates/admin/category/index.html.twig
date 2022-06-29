@@ -25,8 +25,8 @@
 								<td>{{category.name}}</td>
                                 <td>{{category.parent ? category.parent.name : "<span class='badge alert-secondary'>null<span>"}}</td>
 								<td class="d-grid gap-2 d-block">
-									<a class="btn btn-warning" href="{{ path('app_admincategory_edit', {'id': category.id}) }}">Edit</a>
-									<a class="btn btn-secondary" href="{{ path('app_admincategory_show', {'id': category.id}) }}">Show</a>
+									<a class="btn btn-warning" href="{{ path('admin_category_edit', {'id': category.id}) }}">Edit</a>
+									<a class="btn btn-secondary" href="{{ path('admin_category_show', {'id': category.id}) }}">Show</a>
 								</td>
 							</tr>
 						{% else %}

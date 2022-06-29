@@ -62,8 +62,8 @@
 							<h1 class="h3 mb-0 text-gray-800"> {% block h1 %}{% endblock %}
 								</h1>
 								{% set route_name = app.request.attributes.get('_route') %}
-								{% if route_name == 'app_adminproduct_index' %}
-									<a href="{{path('app_adminproduct_new')}}" class="btn btn-primary">New Product</a>
+								{% if route_name == 'admin_product_index' %}
+									<a href="{{path('admin_product_new')}}" class="btn btn-primary">New Product</a>
 								{% endif %}
 
 							</div>

@@ -4,4 +4,46 @@
 {% block h1 'Users' %}
 
 {% block body %}
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Users</h6>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th>Email</th>
+							<th>Firstname</th>
+							<th>Lastname</th>
+							<th>Address</th>
+							<th>Zipcode</th>
+							<th>City</th>
+							<th>Country</th>
+                            <th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for user in users %}
+							<tr>
+								<td>{{user.email}}</td>
+								<td>{{user.firstname}}</td>
+								<td>{{user.lastname}}</td>
+								<td>{{user.address}}</td>
+								<td>{{user.zipcode}}</td>
+								<td>{{user.city}}</td>
+								<td>{{user.country}}</td>
+                                <td><a href="{{path('admin_user_show', {'id': user.id}) }}" class="btn btn-secondary">Show</a></td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 {% endblock %}

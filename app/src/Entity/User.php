@@ -49,12 +49,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private $country;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Oder::class)]
-    private $oders;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
+    private $orders;
 
     public function __construct()
     {
-        $this->oders = new ArrayCollection();
+        $this->orders = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -206,29 +206,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Oder>
+     * @return Collection<int, Order>
      */
-    public function getOders(): Collection
+    public function getOrders(): Collection
     {
-        return $this->oders;
+        return $this->orders;
     }
 
-    public function addOder(Oder $oder): self
+    public function addOrder(Order $order): self
     {
-        if (!$this->oders->contains($oder)) {
-            $this->oders[] = $oder;
-            $oder->setUser($this);
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeOder(Oder $oder): self
+    public function removeOrder(Order $order): self
     {
-        if ($this->oders->removeElement($oder)) {
+        if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($oder->getUser() === $this) {
-                $oder->setUser(null);
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 
