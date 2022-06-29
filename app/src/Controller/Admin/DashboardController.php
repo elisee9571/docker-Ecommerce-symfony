@@ -32,11 +32,14 @@ class DashboardController extends AbstractController
         $orderCount = $this->orderDetailRepository->count([]);
         $userCount = $this->userRepository->count([]);
 
+        $lastProducts = $this->productRepository->findBy([], ['id' => 'DESC'], 5, null);
+
         return $this->render('admin/dashboard/index.html.twig', [
             'categoryCount' => $categoryCount,
             'productCount' => $productCount,
             'orderCount' => $orderCount,
             'userCount' => $userCount,
+            'lastProducts' => $lastProducts,
         ]);
     }
 }

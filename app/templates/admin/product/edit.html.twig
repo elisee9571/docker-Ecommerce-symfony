@@ -1,0 +1,14 @@
+{% extends '_layouts/_admin.html.twig' %}
+
+{% block title 'Edit Product' %}
+{% block h1 'Edit Product' %}
+
+{% block body %}
+	<a href="{{ path('app_adminproduct_index') }}" class="link-secondary">back to list</a>
+	<div class="container pb-5">
+	<div class="d-flex justify-content-end">
+		{{ include('admin/product/_delete_form.html.twig') }}
+	</div>
+		{{ include('admin/product/_form.html.twig', {'button_label': 'Update'}) }}
+	</div>
+{% endblock %}
