@@ -50,11 +50,7 @@ class OrderController extends AbstractController
     public function orderTotalPrice($array)
     {
         foreach ($array as $d) {
-            if ($d->getProduct()->getPriceSold() != null) {
-                $arr[] = $d->getProduct()->getPriceSold() * $d->getQuantity();
-            } else {
-                $arr[] = $d->getProduct()->getPrice() * $d->getQuantity();
-            }
+                $arr[] = $d->getPrice() * $d->getQuantity();
         }
 
         return $arr;

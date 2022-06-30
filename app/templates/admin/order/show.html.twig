@@ -62,20 +62,16 @@
 					<th>Product name</th>
 					<th>Unit price</th>
 					<th>Quantity</th>
-					<th>Price</th>
+					<th>Amout</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for detail in orderDetails %}
 					<tr>
 						<td>{{detail.product.name}}</td>
-						{% if detail.product.priceSold %}
-							<td>{{detail.product.priceSold}}€</td>
-						{% else %}
-							<td>{{detail.product.price}}€</td>
-						{% endif %}
-						<td>{{detail.quantity}}</td>
 						<td>{{detail.price}}€</td>
+						<td>{{detail.quantity}}</td>
+						<td>{{detail.price * detail.quantity}}€</td>
 					</tr>
 				{% else %}
 					<tr>
