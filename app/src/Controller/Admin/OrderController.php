@@ -23,10 +23,10 @@ class OrderController extends AbstractController
     {
         $arrOrders = $this->orderRepository->findAll();
 
-        foreach ($arrOrders as $o) {
-            $arrDetails = $this->orderDetailsRepository->findBy(['order' => $o->getId()]);
+        foreach ($arrOrders as $order) {
+            $arrDetails = $this->orderDetailsRepository->findBy(['order' => $order->getId()]);
 
-            $o->setTotal(array_sum($this->orderTotalPrice($arrDetails)));
+            $this->orderTotalPrice($arrDetails, $order);
         }
 
         return $this->render('admin/order/index.html.twig', [
@@ -39,7 +39,7 @@ class OrderController extends AbstractController
     {
         $arrDetails = $this->orderDetailsRepository->findBy(['order' => $order->getId()]);
 
-        $order->setTotal(array_sum($this->orderTotalPrice($arrDetails)));
+        $this->orderTotalPrice($arrDetails, $order);
 
         return $this->render('admin/order/show.html.twig', [
             'order' => $order,
@@ -47,12 +47,12 @@ class OrderController extends AbstractController
         ]);
     }
 
-    public function orderTotalPrice($array)
+    public function orderTotalPrice($array, $order)
     {
         foreach ($array as $d) {
                 $arr[] = $d->getPrice() * $d->getQuantity();
         }
 
-        return $arr;
+        return $order->setTotal(array_sum($arr));
     }
 }
