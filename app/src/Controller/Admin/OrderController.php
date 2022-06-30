@@ -25,14 +25,8 @@ class OrderController extends AbstractController
 
         foreach ($arrOrders as $o) {
             $arrDetails = $this->orderDetailsRepository->findBy(['order' => $o->getId()]);
-            $arr = [];
-            $total = [];
 
-            foreach ($arrDetails as $d) {
-                $arr[] = $d->getPrice();
-            }
-
-            $o->setTotal(array_sum($arr));
+            $o->setTotal(array_sum($this->orderTotalPrice($arrDetails)));
         }
 
         return $this->render('admin/order/index.html.twig', [
@@ -44,15 +38,25 @@ class OrderController extends AbstractController
     public function show(Order $order): Response
     {
         $arrDetails = $this->orderDetailsRepository->findBy(['order' => $order->getId()]);
-        foreach ($arrDetails as $o) {
-            $arr[] = $o->getPrice();
-        }
-        $total = array_sum($arr);
+
+        $order->setTotal(array_sum($this->orderTotalPrice($arrDetails)));
 
         return $this->render('admin/order/show.html.twig', [
             'order' => $order,
-            'orderDetails' => $arrDetails,
-            'total' => $total
+            'orderDetails' => $arrDetails
         ]);
+    }
+
+    public function orderTotalPrice($array)
+    {
+        foreach ($array as $d) {
+            if ($d->getProduct()->getPriceSold() != null) {
+                $arr[] = $d->getProduct()->getPriceSold() * $d->getQuantity();
+            } else {
+                $arr[] = $d->getProduct()->getPrice() * $d->getQuantity();
+            }
+        }
+
+        return $arr;
     }
 }

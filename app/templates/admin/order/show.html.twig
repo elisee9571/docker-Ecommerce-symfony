@@ -6,6 +6,7 @@
 {% block body %}
 	<a href="{{ path('admin_order_index') }}">back to list</a>
 	<div class="container pb-5">
+
 		<table class="table table-borderless mb-5">
 			<thead>
 				<tr>
@@ -20,6 +21,7 @@
 				</tr>
 			</tbody>
 		</table>
+
 		<table class="table table-borderless">
 			<thead>
 				<tr>
@@ -38,26 +40,27 @@
 								{{ user.firstname }}
 								{{ user.lastname }}
 							</p>
-								{{ user.address }}
-							</p>
-							<p>
-								{{ user.city }},
-								{{ user.country }}
-							</p>
-							<p>
-								{{user.zipcode}}
-							</p>
-						</div>
+							{{ user.address }}
+						</p>
+						<p>
+							{{ user.city }},
+							{{ user.country }}
+						</p>
+						<p>
+							{{user.zipcode}}
+						</p>
 					</td>
 				</tr>
-
 			</tbody>
 		</table>
+
 		<h6 class="mt-5 font-weight-bold text-primary">Order details</h6>
+
 		<table class="table">
 			<thead>
 				<tr>
 					<th>Product name</th>
+					<th>Unit price</th>
 					<th>Quantity</th>
 					<th>Price</th>
 				</tr>
@@ -66,6 +69,11 @@
 				{% for detail in orderDetails %}
 					<tr>
 						<td>{{detail.product.name}}</td>
+						{% if detail.product.priceSold %}
+							<td>{{detail.product.priceSold}}€</td>
+						{% else %}
+							<td>{{detail.product.price}}€</td>
+						{% endif %}
 						<td>{{detail.quantity}}</td>
 						<td>{{detail.price}}€</td>
 					</tr>
@@ -76,10 +84,10 @@
 				{% endfor %}
 			</tbody>
 		</table>
+
 		<div class="column my-5 px-2">
 			<p class="lead" style="font-weight:bold">Total</p>
-			<p class="lead">{{total}}
-				€</p>
+			<p class="lead">{{order.total}}€</p>
 		</div>
 	</div>
 {% endblock %}
