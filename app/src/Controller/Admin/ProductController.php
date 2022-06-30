@@ -11,24 +11,24 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/adminproduct')]
+#[Route('/admin/product', name: 'admin_product_')]
 class ProductController extends AbstractController
 {
-    public function __construct(private SluggerInterface $slugger)
+    public function __construct(private SluggerInterface $slugger, ProductRepository $productRepository)
     {
-        
+        $this->productRepository = $productRepository;
     }
 
-    #[Route(name: 'admin_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): Response
+    #[Route(name: 'index', methods: ['GET'])]
+    public function index(): Response
     {
         return $this->render('admin/product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $this->productRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'admin_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductRepository $productRepository): Response
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
     {
         $product = new Product();
 
@@ -37,7 +37,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setSlug($this->slugger->slug($product->getName())->lower());
-            $productRepository->add($product, true);
+            $this->productRepository->add($product, true);
 
             return $this->redirectToRoute('admin_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -48,7 +48,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_product_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Product $product): Response
     {
         return $this->render('admin/product/show.html.twig', [
@@ -56,15 +56,15 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Product $product): Response
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setSlug($this->slugger->slug($product->getName())->lower());
-            $productRepository->add($product, true);
+            $this->productRepository->add($product, true);
 
             return $this->redirectToRoute('admin_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -75,11 +75,11 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_product_delete', methods: ['POST'])]
-    public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Product $product, ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
-            $productRepository->remove($product, true);
+            $this->productRepository->remove($product, true);
         }
 
         return $this->redirectToRoute('admin_product_index', [], Response::HTTP_SEE_OTHER);

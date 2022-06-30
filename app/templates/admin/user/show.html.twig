@@ -13,6 +13,13 @@
 					<td>{{ user.id }}</td>
 				</tr>
 				<tr>
+					<th>Role</th>
+					<td>
+						<span class='badge alert-primary'>{{user.roles[0]}}<span></td>
+						</tr>
+					</td>
+				</tr>
+				<tr>
 					<th>Email</th>
 					<td>{{ user.email }}</td>
 				</tr>
@@ -44,11 +51,13 @@
 					<th>CreatedAt</th>
 					<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 				</tr>
-				<tr>
-					<th>Orders</th>
-					<td>{{ user.orders }}</td>
-				</tr>
+				{# <tr>
+													<th>Orders</th>
+													<td>{{ user.orders }}</td>
+												</tr> #}
 			</tbody>
 		</table>
+		<a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-warning">Edit</a>
 	</div>
 {% endblock %}
+

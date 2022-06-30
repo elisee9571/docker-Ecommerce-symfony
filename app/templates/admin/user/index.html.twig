@@ -17,11 +17,8 @@
 							<th>Email</th>
 							<th>Firstname</th>
 							<th>Lastname</th>
-							<th>Address</th>
-							<th>Zipcode</th>
-							<th>City</th>
-							<th>Country</th>
-                            <th>Action</th>
+							<th>Role</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -30,11 +27,11 @@
 								<td>{{user.email}}</td>
 								<td>{{user.firstname}}</td>
 								<td>{{user.lastname}}</td>
-								<td>{{user.address}}</td>
-								<td>{{user.zipcode}}</td>
-								<td>{{user.city}}</td>
-								<td>{{user.country}}</td>
-                                <td><a href="{{path('admin_user_show', {'id': user.id}) }}" class="btn btn-secondary">Show</a></td>
+								<td><span class='badge alert-primary'>{{user.roles[0]}}<span></td>
+								<td class="d-grid gap-2 d-block">
+									<a class="btn btn-warning" href="{{ path('admin_user_edit', {'id': user.id}) }}">Edit</a>
+									<a class="btn btn-secondary" href="{{ path('admin_user_show', {'id': user.id}) }}">Show</a>
+								</td>
 							</tr>
 						{% else %}
 							<tr>

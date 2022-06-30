@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CategoryType extends AbstractType
@@ -13,9 +15,21 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('slug')
-            ->add('parent')
-        ;
+            ->add('parent', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => true,
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => false,
+                'by_reference' => true,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.name', 'ASC');
+                }
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

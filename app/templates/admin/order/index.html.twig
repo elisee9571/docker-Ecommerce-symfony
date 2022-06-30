@@ -25,6 +25,7 @@
 							<tr>
 								<td>{{order.reference}}</td>
 								<td>{{order.user.email}}</td>
+								<td>{{order.total}}€</td>
                                 <td><a href="{{path('admin_order_show', {'id': order.id}) }}" class="btn btn-secondary">Show</a></td>
 							</tr>
 						{% else %}

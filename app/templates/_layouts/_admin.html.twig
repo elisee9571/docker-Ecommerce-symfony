@@ -64,8 +64,11 @@
 								{% set route_name = app.request.attributes.get('_route') %}
 								{% if route_name == 'admin_product_index' %}
 									<a href="{{path('admin_product_new')}}" class="btn btn-primary">New Product</a>
+								{% elseif route_name == 'admin_category_index' %}
+									<a href="{{path('admin_category_new')}}" class="btn btn-primary">New Category</a>
+								{% elseif route_name == 'admin_user_index' %}
+									<a href="{{path('admin_user_new')}}" class="btn btn-primary">New User</a>
 								{% endif %}
-
 							</div>
 							{% block body %}{% endblock %}
 						</div>

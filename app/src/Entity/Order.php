@@ -28,6 +28,8 @@ class Order
     #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderDetails::class)]
     private $orderDetails;
 
+    private $total;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -101,6 +103,18 @@ class Order
                 $orderDetail->setOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    public function setTotal($total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Order;
-use App\Entity\OrderDetails;
 use App\Repository\OrderRepository;
 use App\Repository\OrderDetailsRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/order', name: 'admin_order_')]
 class OrderController extends AbstractController
-{    
+{
     public function __construct(OrderRepository $orderRepository, OrderDetailsRepository $orderDetailsRepository)
     {
         $this->orderRepository = $orderRepository;
@@ -22,10 +21,22 @@ class OrderController extends AbstractController
     #[Route(name: 'index')]
     public function index(): Response
     {
-        $orders = $this->orderRepository->findAll();
+        $arrOrders = $this->orderRepository->findAll();
+
+        foreach ($arrOrders as $o) {
+            $arrDetails = $this->orderDetailsRepository->findBy(['order' => $o->getId()]);
+            $arr = [];
+            $total = [];
+
+            foreach ($arrDetails as $d) {
+                $arr[] = $d->getPrice();
+            }
+
+            $o->setTotal(array_sum($arr));
+        }
 
         return $this->render('admin/order/index.html.twig', [
-            'orders' => $orders,
+            'orders' => $arrOrders
         ]);
     }
 
@@ -33,8 +44,8 @@ class OrderController extends AbstractController
     public function show(Order $order): Response
     {
         $arrDetails = $this->orderDetailsRepository->findBy(['order' => $order->getId()]);
-        foreach ($arrDetails as $order) {
-            $arr[] = $order->getPrice();
+        foreach ($arrDetails as $o) {
+            $arr[] = $o->getPrice();
         }
         $total = array_sum($arr);
 
