@@ -7,8 +7,11 @@
 				<div class="badge bg-dark position-absolute" style="top: 0.5rem; right: 0.5rem">Sold</div>
 			{% endif %}
 
-			<img
-			class="card-img-top" src="{{ product.images[0].name }}" alt="..."/>
+			{% if product.images is not empty %}
+				<img class="card-img-top h-50" src="{{ product.images[0].name }}" alt="..."/>
+			{% else %}
+				<img class="card-img-top h-50" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
+			{% endif %}
 
 			<!-- Product details-->
 			<div class="card-body p-4">

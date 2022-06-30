@@ -9,7 +9,11 @@
 			<div class="container px-4 px-lg-5 my-5">
 				<div class="row gx-4 gx-lg-5 align-items-center">
 					<div class="col-md-6">
-						<img class="card-img-top mb-5 mb-md-0" src="{{ product.images[0].name }}" alt="..."/>
+						{% if product.images is not empty %}
+							<img class="card-img-top" src="{{ product.images[0].name }}" alt="..."/>
+						{% else %}
+							<img class="card-img-top" src="https://dummyimage.com/640x480/dee2e6/6c757d.jpg" alt="..."/>
+						{% endif %}
 					</div>
 
 					<div class="col-md-6">
@@ -38,9 +42,10 @@
 						{% if product.quantity > 0 %}
 							<div class="d-flex">
 								<input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem"/>
-								<button class="btn btn-outline-dark flex-shrink-0" type="button">
+								<a href="{{ path('app_cart_add', { 'id' : product.id }) }}" class="btn btn-outline-dark flex-shrink-0">
+									<i class="fas fa-shopping-cart mr-1"></i>
 									Add to cart
-								</button>
+								</a>
 							</div>
 						{% endif %}
 					</div>

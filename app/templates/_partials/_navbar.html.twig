@@ -20,13 +20,13 @@
 					<a class="nav-link" href="{{ path('app_product_index') }}">Shop</a>
 				</li>
 			</ul>
-
 			{% if not app.user %}
 				<div class="d-grid gap-2 d-md-block">
 					<a href="{{ path('app_login') }}" class="btn btn-primary">Log in</a>
 					<a href="{{ path('app_register') }}" class="btn btn-secondary">Sign up</a>
 				</div>
 			{% else %}
+				<a class="btn btn-primary" href="{{ path('app_cart_index') }}">Panier</a>
 				<div class="btn-group dropstart">
 					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Profile
@@ -49,6 +49,7 @@
 					</ul>
 				</div>
 			{% endif %}
+
 		</div>
 	</div>
 </nav>

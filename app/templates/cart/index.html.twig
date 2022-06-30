@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Panier' %}
+
+{% block body %}
+	<div class="container-fluid mt-5">
+		{% if items | length > 0 %}
+			<div class="row">
+				<div class="col-8 px-5">
+					<table class="table mt-5">
+						<thead>
+							<tr>
+								<th colspan="2">Product</th>
+								<th>Price</th>
+								<th>Quantity</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in items %}
+								{% set product = item.product %}
+								<tr class="align-middle">
+									<td>
+										{% if product.images is not empty %}
+											<img class="card-img-top" src="{{ product.images[0].name }}" style="width:150px" alt="..."/>
+										{% else %}
+											<img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" style="width:150px" alt="..."/>
+										{% endif %}
+									</td>
+									<td>
+										{{ product.name }}
+									</td>
+									<td>{{ product.price }}€</td>
+									<td>{{ item.quantity }}</td>
+									<td>{{ product.price * item.quantity }}€</td>
+									<td>
+										<form method="post" action="{{ path('app_cart_remove', {'id': product.id}) }}">
+											<button class="btn btn-danger">Delete</button>
+										</form>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+				</div>
+				<div class="col-4">
+					<div class="column my-5 px-2">
+						<p class="lead" style="font-weight:bold">Total</p>
+						<p class="lead">{{total}}€</p>
+					</div>
+					<a href="{{ path('app_cart_checkout') }}" class="btn btn-primary">Checkout</a>
+					<a href="#">Continue shopping</a>
+				</div>
+			</div>
+		{% else %}
+			<p class="lead">Surprise, c'est vide !</p>
+		{% endif %}
+
+
+	</div>
+{% endblock %}
