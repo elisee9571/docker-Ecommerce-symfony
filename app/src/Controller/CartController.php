@@ -98,8 +98,6 @@ class CartController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userRepository->add($user, true);
-
-            return $this->redirectToRoute('app_cart_checkout');
         }
 
         $cart = $session->get('cart', []);
