@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,9 +15,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/cart', name: 'app_cart_')]
 class CartController extends AbstractController
 {
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, UserRepository $userRepository)
     {
         $this->productRepository = $productRepository;
+        $this->userRepository = $userRepository;
     }
 
     #[Route(name: 'index')]
@@ -72,7 +74,7 @@ class CartController extends AbstractController
         }
     }
 
-    #[Route('/{id}', name: 'remove', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'remove', methods: ['POST'])]
     public function remove($id, SessionInterface $session)
     {
         $cart = $session->get('cart', []);
@@ -86,7 +88,7 @@ class CartController extends AbstractController
         return $this->redirectToRoute('app_cart_index');
     }
 
-    #[Route('/checkout', name: 'checkout', methods: ['GET', 'POST'])]
+    #[Route('/checkout', name: 'checkout',  methods: ['GET', 'POST'])]
     public function checkout(SessionInterface $session, Request $request)
     {
         $user = $this->getUser();
@@ -94,6 +96,11 @@ class CartController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->remove('roles');
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userRepository->add($user, true);
+
+            return $this->redirectToRoute('app_cart_checkout');
+        }
 
         $cart = $session->get('cart', []);
         
@@ -116,11 +123,6 @@ class CartController extends AbstractController
             }
         }
         
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->userRepository->add($user, true);
-
-            return $this->redirectToRoute('admin_user_index', [], Response::HTTP_SEE_OTHER);
-        }
 
         return $this->render('cart/checkout.html.twig', [
             "items" => $cartWithData,

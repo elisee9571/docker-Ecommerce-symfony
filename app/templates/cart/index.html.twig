@@ -87,4 +87,17 @@
 	{% include "product/related.html.twig" %}
 
 	{% include "_partials/_qty.html.twig" %}
+
+	{# // 	$(document).ready(function() {
+    //     $('#lessBtn').click(function() {
+    //         $.ajax({
+    //             url: "{{ path('add_product') }}/" + $(this).data('id'),
+    //             type: "GET",
+    //             success: function(response) {
+    //                 // Change #total text
+    //                 $('#total').text(response.total);
+    //             }
+    //         });
+    //     });
+    // }); #}
 {% endblock %}
