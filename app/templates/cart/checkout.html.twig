@@ -3,84 +3,133 @@
 {% block title 'Checkout' %}
 
 {% block body %}
-	<div class="container mt-5">
+	<div class="container py-5 my-5">
 		<div class="row">
-			<div class="col-6">
-				{% set user = app.user %}
-				<form action="" method="post">
-					<div class="row">
-						<div class="col-6 mb-3">
-							<label for="exampleFormControlInput1" class="form-label">Firstname</label>
-							<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.firstname}}">
-						</div>
-						<div class="col-6 mb-3">
-							<label for="exampleFormControlInput1" class="form-label">Lastname</label>
-							<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.lastname}}">
-						</div>
+			<div class="col-md-7 order-md-1">
+				{{form_start(form)}}
+				<div class="row">
+					<div class="col-md-6">
+						{{form_row(form.firstname) }}
 					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">Email</label>
-						<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.email}}">
-					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">Address</label>
-						<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.address}}">
-					</div>
-					<div class="row">
-						<div class="col-6 mb-3">
-							<label for="exampleFormControlInput1" class="form-label">City</label>
-							<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.city}}">
-						</div>
-						<div class="col-6 mb-3">
-							<label for="exampleFormControlInput1" class="form-label">Zipcode</label>
-							<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.zipcode}}">
-						</div>
-					</div>
-					<div class="col-6 mb-3">
-						<label for="exampleFormControlInput1" class="form-label">Country</label>
-						<input type="email" class="form-control" id="exampleFormControlInput1" value="{{user.country}}">
-					</div>
-				</form>
-			</div>
-			<div class="col-6">
-				<table class="table">
-					<thead>
-						<tr>
-							<th colspan="2">Product</th>
-							<th>Price</th>
-							<th>Quantity</th>
-							<th>Total</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for item in items %}
-							{% set product = item.product %}
-							<tr class="align-middle">
-								<td>
-									{% if product.images is not empty %}
-										<img class="card-img-top" src="{{ product.images[0].name }}" style="width:150px" alt="..."/>
-									{% else %}
-										<img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" style="width:150px" alt="..."/>
-									{% endif %}
-								</td>
-								<td>
-									{{ product.name }}
-								</td>
-								<td>{{ product.price }}€</td>
-								<td>{{ item.quantity }}</td>
-								<td>{{ product.price * item.quantity }}€</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-				<div class="d-flex justify-content-end  my-5 px-2">
-					<div class="column">
-						<p class="lead" style="font-weight:bold">Total</p>
-						<p class="lead">{{total}}€</p>
+					<div class="col-md-6">
+						{{form_row(form.lastname) }}
 					</div>
 				</div>
+				{{form_row(form.email)}}
+				{{form_row(form.address)}}
+				<div class="row">
+					<div class="col-md-6">
+						{{form_row(form.city) }}
+					</div>
+					<div class="col-md-6">
+						{{form_row(form.zipcode) }}
+					</div>
+				</div>
+				{{form_row(form.country)}}
+				<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+				{{form_end(form)}}
+				<hr class="mb-4">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="same-address">
+					<label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="save-info">
+					<label class="custom-control-label" for="save-info">Save this information for next time</label>
+				</div>
+				<hr class="mb-4">
+
+				<h4 class="mb-3">Payment</h4>
+
+				<div class="d-block my-3">
+					<div class="custom-control custom-radio">
+						<input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+						<label class="custom-control-label" for="credit">Credit card</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+						<label class="custom-control-label" for="debit">Debit card</label>
+					</div>
+					<div class="custom-control custom-radio">
+						<input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
+						<label class="custom-control-label" for="paypal">PayPal</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="cc-name">Name on card</label>
+						<input type="text" class="form-control" id="cc-name" placeholder="" required="">
+						<small class="text-muted">Full name as displayed on card</small>
+						<div class="invalid-feedback">
+							Name on card is required
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="cc-number">Credit card number</label>
+						<input type="text" class="form-control" id="cc-number" placeholder="" required="">
+						<div class="invalid-feedback">
+							Credit card number is required
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3 mb-3">
+						<label for="cc-expiration">Expiration</label>
+						<input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+						<div class="invalid-feedback">
+							Expiration date required
+						</div>
+					</div>
+					<div class="col-md-3 mb-3">
+						<label for="cc-cvv">CVV</label>
+						<input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+						<div class="invalid-feedback">
+							Security code required
+						</div>
+					</div>
+				</div>
+				<hr class="mb-4">
+				<button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+			</div>
+			<div class="col-md-5 order-md-2 mb-4">
+				<h4 class="d-flex justify-content-between align-items-center mb-3">
+					<span class="text-muted">Your cart</span>
+					<span class="badge bg-secondary rounded-pill">{{cartQty}}</span>
+				</h4>
+				<ul class="list-group mb-3">
+					{% for item in items %}
+						{% set product = item.product %}
+						<li class="list-group-item d-flex justify-content-between lh-condensed">
+							<div>
+								{% if product.images is not empty %}
+									<img class="card-img-top" src="{{ product.images[0].name }}" style="width:100px" alt="..."/>
+								{% else %}
+									<img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" style="width:100px" alt="..."/>
+								{% endif %}
+							</div>
+							<div>
+								<h6 class="my-0">{{product.name}}</h6>
+								<small class="text-muted">{{ item.quantity }}</small>
+								{% if product.priceSold %}
+									<p class="text-muted text-decoration-line-through">{{ product.price }}€</p>
+									{{ product.priceSold }}€
+								{% else %}
+									<p class="text-muted">{{ product.price }}€</p>
+								{% endif %}
+							</div>
+							{% if product.priceSold %}
+								<span class="text-muted">{{ product.priceSold * item.quantity }}€</span>
+							{% else %}
+								<span class="text-muted">{{ product.price * item.quantity }}€</span>
+							{% endif %}
+						</li>
+					{% endfor %}
+					<li class="list-group-item d-flex justify-content-between">
+						<span>Total (EUR)</span>
+						<strong>{{total}}€</strong>
+					</li>
+				</ul>
 			</div>
 		</div>
-
 	</div>
 {% endblock %}

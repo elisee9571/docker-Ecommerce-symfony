@@ -3,7 +3,7 @@
 {% block title 'Panier' %}
 
 {% block body %}
-	<div class="container-fluid mt-5">
+	<div class="container-fluid my-5 py-5">
 		{% if items | length > 0 %}
 			<div class="row">
 				<div class="col-8 px-5">
@@ -30,9 +30,27 @@
 									<td>
 										{{ product.name }}
 									</td>
-									<td>{{ product.price }}€</td>
-									<td>{{ item.quantity }}</td>
-									<td>{{ product.price * item.quantity }}€</td>
+									{% if product.priceSold %}
+										<td>
+											<p class="text-muted text-decoration-line-through">{{ product.price }}€</p>
+											{{ product.priceSold }}€</td>
+									{% else %}
+										<td>{{ product.price }}€</td>
+									{% endif %}
+									<td>
+										<div class="row">
+											<div class="input-group" role="group">
+												<div onclick="less({{product.id}})" id="lessBtn" class="btn btn-dark">-</div>
+												<input class="form-control text-center m-0" name="quantityItem" id="inputQuantity-{{product.id}}" type="num" value="{{item.quantity}}" min="1" style="max-width: 3rem"/>
+												<div onclick="more({{product.id}})" id="moreBtn" class="btn btn-dark">+</div>
+											</div>
+										</div>
+									</td>
+									{% if product.priceSold %}
+										<td>{{ product.priceSold * item.quantity }}€</td>
+									{% else %}
+										<td>{{ product.price * item.quantity }}€</td>
+									{% endif %}
 									<td>
 										<form method="post" action="{{ path('app_cart_remove', {'id': product.id}) }}">
 											<button class="btn btn-danger">Delete</button>
@@ -42,7 +60,6 @@
 							{% endfor %}
 						</tbody>
 					</table>
-
 				</div>
 				<div class="col-4">
 					<div class="column my-5 px-2">
@@ -50,13 +67,24 @@
 						<p class="lead">{{total}}€</p>
 					</div>
 					<a href="{{ path('app_cart_checkout') }}" class="btn btn-primary">Checkout</a>
-					<a href="#">Continue shopping</a>
+				</div>
+				<div class="d-flex justify-content-center">
+					<a href="{{path('app_product_index')}}" class="btn btn-primary m-3">continue shopping</a>
 				</div>
 			</div>
 		{% else %}
-			<p class="lead">Surprise, c'est vide !</p>
+			<div class="row">
+				<div class="d-flex justify-content-center align-items-center" style="height:50vh">
+					<div class="text-center">
+						<p class="fs-1">Your Cart is Empty</p>
+						<p class="lead">Add something to make me happy :)</p>
+						<a href="{{path('app_product_index')}}" class="btn btn-primary m-3">continue shopping</a>
+					</div>
+				</div>
+			</div>
 		{% endif %}
-
-
 	</div>
+	{% include "product/related.html.twig" %}
+
+	{% include "_partials/_qty.html.twig" %}
 {% endblock %}

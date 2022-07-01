@@ -3,7 +3,9 @@
 		<div
 			class="card h-100">
 			<!-- Product image-->
-			{% if product.priceSold %}
+			{% if product.quantity == 0 %}
+				<div class="badge bg-danger position-absolute" style="top: 0.5rem; right: 0.5rem">Sold-out</div>
+			{% elseif product.priceSold  %}
 				<div class="badge bg-dark position-absolute" style="top: 0.5rem; right: 0.5rem">Sold</div>
 			{% endif %}
 

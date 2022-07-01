@@ -41,11 +41,19 @@
 
 						{% if product.quantity > 0 %}
 							<div class="d-flex">
-								<input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem"/>
-								<a href="{{ path('app_cart_add', { 'id' : product.id }) }}" class="btn btn-outline-dark flex-shrink-0">
-									<i class="fas fa-shopping-cart mr-1"></i>
-									Add to cart
-								</a>
+								<form action="{{path('app_cart_add', { 'id' : product.id })}}">
+									<div class="row">
+										<div class="input-group" role="group">
+											<div onclick="less({{product.id}})" id="lessBtn" class="btn btn-dark">-</div>
+											<input class="form-control text-center m-0" name="quantityItem" id="inputQuantity-{{product.id}}" type="num" value="1" min="1" style="max-width: 3rem"/>
+											<div onclick="more({{product.id}})" id="moreBtn" class="btn btn-dark">+</div>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-outline-dark mx-4">
+										<i class="fas fa-shopping-cart mr-1"></i>
+										Add to cart
+									</button>
+								</form>
 							</div>
 						{% endif %}
 					</div>
@@ -54,4 +62,5 @@
 		</section>
 	</div>
 	{% include "product/related.html.twig" %}
+	{% include "_partials/_qty.html.twig" %}
 {% endblock %}

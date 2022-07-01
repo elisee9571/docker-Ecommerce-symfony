@@ -1,0 +1,15 @@
+<script>
+function less(id) {
+    var v = parseInt(document.querySelector(`#inputQuantity-${id}`).value);
+    if(v > 1){
+        v--;
+        document.querySelector(`#inputQuantity-${id}`).setAttribute('value', v);
+    }
+}
+
+function more(id) {
+	var v = parseInt(document.querySelector(`#inputQuantity-${id}`).value);
+	v++;
+	document.querySelector(`#inputQuantity-${id}`).setAttribute('value', v);
+}
+	</script>
